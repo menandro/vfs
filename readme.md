@@ -11,7 +11,7 @@ Menandro Roxas and Takeshi Oishi, "Real-Time Variational Fisheye Stereo without 
 3. Visual Studio 2019
 
 ## Building Instructions
-The solution consists of two projects - vfs and test_vfs. vfs generates a static library from which test_vfs links. test_vfs generates a Win32 .exe file. 
+The solution consists of two projects - stereotgv and test_vfs. stereotgv generates a static library from which test_vfs links. test_vfs generates a Win32 .exe file. 
 
 There is a lib_link.h header (for both project) that links the necessary libraries. Modify the directories:
 
