@@ -199,6 +199,19 @@ int StereoTgv::loadVectorFields(cv::Mat translationVector, cv::Mat calibrationVe
 	return 0;
 }
 
+int StereoTgv::copyImagesToDevice(unsigned char* i0data, unsigned char* i1data) {
+	cv::Mat i0 = cv::Mat(cv::Size(width, height), CV_8UC1, i0data);
+	cv::Mat i1 = cv::Mat(cv::Size(width, height), CV_8UC1, i1data);
+	cv::copyMakeBorder(i0, im0pad, 0, 0, 0, stride - width, cv::BORDER_CONSTANT, 0);
+	cv::copyMakeBorder(i1, im1pad, 0, 0, 0, stride - width, cv::BORDER_CONSTANT, 0);
+
+	checkCudaErrors(cudaMemcpy(d_i08u, (uchar*)im0pad.ptr(), dataSize8u, cudaMemcpyHostToDevice));
+	checkCudaErrors(cudaMemcpy(d_i18u, (uchar*)im1pad.ptr(), dataSize8u, cudaMemcpyHostToDevice));
+	// Convert to 32F
+	Cv8uToGray(d_i08u, pI0[0], width, height, stride);
+	Cv8uToGray(d_i18u, pI1[0], width, height, stride);
+	return 0;
+}
 
 int StereoTgv::copyImagesToDevice(cv::Mat i0, cv::Mat i1) {
 	// Padding
@@ -502,6 +515,17 @@ int StereoTgv::solveStereoForwardMasked() {
 	return 0;
 }
 
+int StereoTgv::copyStereo8ToHost(cv::Mat& wCropped, float maxDepth) {
+	ConvertDisparityToDepth(d_u, baseline, focal, width, height, stride, d_depth);
+
+	// Remove Padding
+	checkCudaErrors(cudaMemcpy((float*)depth.ptr(), d_depth, dataSize32f, cudaMemcpyDeviceToHost));
+	cv::Rect roi(0, 0, width, height); // define roi here as x0, y0, width, height
+	cv::Mat depth8;
+	depth.convertTo(depth8, CV_8UC1, 255.0f / maxDepth);
+	wCropped = depth8(roi);
+	return 0;
+}
 
 int StereoTgv::copyStereoToHost(cv::Mat &wCropped) {
 	// Convert Disparity to Depth

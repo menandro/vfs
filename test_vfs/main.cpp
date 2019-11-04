@@ -51,10 +51,10 @@ int main() {
 	int width = 848;
 	int height = 800;
 	float stereoScaling = 1.0f; // Bugged, don't change
-	int nLevel = 11;		// Limith such that minimum width > 50pix
-	float fScale = 1.2f;	// Ideally 2.0
-	int nWarpIters = 50;	// Change to reduce processing time
-	int nSolverIters = 50;	// Change to reduce processing time
+	int nLevel = 4;		// Limith such that minimum width > 50pix
+	float fScale = 2.0f;	// Ideally 2.0
+	int nWarpIters = 5;	// Change to reduce processing time
+	int nSolverIters = 5;	// Change to reduce processing time
 	float lambda = 5.0f;	// Change to increase data dependency
 	float beta = 9.0f;		
 	float gamma = 0.85f;
@@ -87,11 +87,14 @@ int main() {
 	cv::equalizeHist(im1, equi1);
 	cv::equalizeHist(im2, equi2);
 
+	clock_t start = clock();
 	stereotgv->copyImagesToDevice(equi1, equi2);
 	stereotgv->solveStereoForwardMasked();
 
 	cv::Mat disparity = cv::Mat(stereoHeight, stereoWidth, CV_32FC2);
 	stereotgv->copyDisparityToHost(disparity);
+	clock_t timeElapsed = (clock() - start);
+	std::cout << "time: " << timeElapsed << " ms ";
 	cv::writeOpticalFlow("disparity.flo", disparity);
 	cv::waitKey();
 	return 0;

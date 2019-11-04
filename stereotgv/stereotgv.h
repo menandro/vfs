@@ -108,11 +108,15 @@ public:
 		float alpha0, float alpha1, float timestep_lambda, float lambda,
 		int nLevels, float fScale, int nWarpIters, int nSolverIters);
 	int loadVectorFields(cv::Mat translationVector, cv::Mat calibrationVector);
+
+	int copyImagesToDevice(unsigned char* i0, unsigned char* i1);
 	int copyImagesToDevice(cv::Mat i0, cv::Mat i1);
+	
 	int copyMaskToDevice(cv::Mat mask);
 	int solveStereoForward();
 	int solveStereoForwardMasked();
 	int copyStereoToHost(cv::Mat &wCropped);
+	int copyStereo8ToHost(cv::Mat& wCropped, float maxDepth);
 	int copy1DDisparityToHost(cv::Mat &wCropped);
 	int copyDisparityToHost(cv::Mat &wCropped);
 	int copyDisparityVisToHost(cv::Mat &wCropped, float flowScale);
