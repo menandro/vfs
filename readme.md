@@ -31,8 +31,22 @@ Includes: D:/dev/include
 Libraries: D:/dev/lib64
 ```
 
-## Results
-INTEL Realsense T265
+## Dataset
+Real Dataset (144 image pairs with groundtruth depth): 
+[Dataset](http://b2.cvl.iis.u-tokyo.ac.jp/~roxas/icra_dataset.zip)
+Folder Structure:
+* calib - intrinsic camera matrix K, and transformation R, t between first->second image frames in OpenCV format .xml 
+* image_02/data - first RGB image frame
+* image_03/data - second RGB image frame
+* proj_depth/groundtrutn - contains groundtruth depth for image_02
+* calibrationVector - calibration vector in .flo format
+* translationVector - trajectory field in .flo format
+* result_ours - our results for easy comparison (with visualization of disparity error)
+
+## Sample Results
+![RGB](http://b2.cvl.iis.u-tokyo.ac.jp/~roxas/sampleresult.png)
+
+INTEL Realsense T265: 
 [Video 01](http://b2.cvl.iis.u-tokyo.ac.jp/~roxas/output001.mp4)
 [Video 04](http://b2.cvl.iis.u-tokyo.ac.jp/~roxas/output004.mp4)
 [Video 07](http://b2.cvl.iis.u-tokyo.ac.jp/~roxas/output007.mp4)
@@ -41,8 +55,7 @@ INTEL Realsense T265
 [Video 20](http://b2.cvl.iis.u-tokyo.ac.jp/~roxas/output020.mp4)
 [Video 21](http://b2.cvl.iis.u-tokyo.ac.jp/~roxas/outputbuggy.mp4)
 
-Real Dataset (144 image pairs with groundtruth depth)
-[Dataset](http://b2.cvl.iis.u-tokyo.ac.jp/~roxas/icra_dataset.zip)
+
 
 ### To do
 *CMake
