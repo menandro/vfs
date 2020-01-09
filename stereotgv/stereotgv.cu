@@ -1,5 +1,3 @@
-
-
 #include "stereotgv.h"
 
 void DEBUGIMAGE(std::string windowName, float* deviceImage, int height, int stride, bool verbose, bool wait) {
@@ -32,7 +30,7 @@ void DEBUGIMAGE(std::string windowName, float2* deviceImage, int height, int str
 
 
 StereoTgv::StereoTgv() {
-	this->BlockHeight = 12;
+	this->BlockHeight = 1;
 	this->BlockWidth = 32;
 	this->StrideAlignment = 32;
 }
@@ -569,6 +567,7 @@ int StereoTgv::copyDisparityVisToHost(cv::Mat &wCropped, float flowScale) {
 	checkCudaErrors(cudaMemcpy((float3 *)warpUVrgb.ptr(), d_uvrgb, dataSize32fc3, cudaMemcpyDeviceToHost));
 	cv::Rect roi(0, 0, width, height); // define roi here as x0, y0, width, height
 	wCropped = warpUVrgb(roi);
+	std::cout << height << " " << width << std::endl;
 	return 0;
 }
 

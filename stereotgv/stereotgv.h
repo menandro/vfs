@@ -179,6 +179,8 @@ public:
 	void Upscale(const float2 *src, int width, int height, int stride,
 		int newWidth, int newHeight, int newStride, float scale, float2 *out);
 	void ConvertDisparityToDepth(float *disparity, float baseline, float focal, int w, int h, int s, float *depth);
+	void ConvertDisparityToDepthKannala(float* disparity, float baseline, float focal,
+		int w, int h, int s, float* depth);
 
 	void UpdateDualVariablesTGV(float* u_, float2 *v_, float alpha0, float alpha1, float sigma,
 		float eta_p, float eta_q, float* a, float* b, float* c,

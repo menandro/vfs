@@ -33,6 +33,7 @@
 #pragma comment(lib, LIB_PATH "opencv_cudaimgproc" CV_VER_NUM LIB_EXT)
 
 #pragma comment(lib, LIB_PATH "opencv_video" CV_VER_NUM LIB_EXT)
+
 void showDepthJet(std::string windowName, cv::Mat image, float maxDepth, bool shouldWait = true) {
 	cv::Mat u_norm, u_gray, u_color;
 	u_norm = image * 256.0f / maxDepth;
@@ -44,23 +45,24 @@ void showDepthJet(std::string windowName, cv::Mat image, float maxDepth, bool sh
 }
 
 int main() {
-	cv::Mat im1 = cv::imread("fs1.png", cv::IMREAD_GRAYSCALE);
-	cv::Mat im2 = cv::imread("fs2.png", cv::IMREAD_GRAYSCALE);
+	cv::Mat im1 = cv::imread("robot1.png", cv::IMREAD_GRAYSCALE);
+	cv::Mat im2 = cv::imread("robot2.png", cv::IMREAD_GRAYSCALE);
 
 	StereoTgv* stereotgv = new StereoTgv();
 	int width = 848;
 	int height = 800;
-	float stereoScaling = 1.0f; // Bugged, don't change
-	int nLevel = 4;		// Limith such that minimum width > 50pix
-	float fScale = 2.0f;	// Ideally 2.0
-	int nWarpIters = 5;	// Change to reduce processing time
-	int nSolverIters = 5;	// Change to reduce processing time
+	float stereoScaling = 1.0f; // 1.0 and 2.0 only
+	int nLevel = 11;		// Limith such that minimum width > 50pix
+	float fScale = 1.2f;	// Ideally 2.0
+	int nWarpIters = 100;	// Change to reduce processing time
+	int nSolverIters = 100;	// Change to reduce processing time
 	float lambda = 5.0f;	// Change to increase data dependency
 	float beta = 9.0f;		
 	float gamma = 0.85f;
 	float alpha0 = 17.0f;
 	float alpha1 = 1.2f;
 	float timeStepLambda = 1.0f;
+	stereotgv->limitRange = 0.2f;
 
 	int stereoWidth = (int)((float)width / stereoScaling);
 	int stereoHeight = (int)((float)height / stereoScaling);
@@ -70,22 +72,29 @@ int main() {
 		timeStepLambda, lambda, nLevel, fScale, nWarpIters, nSolverIters);
 	stereotgv->visualizeResults = true;
 
-	// Load fisheye Mask
-	cv::Mat fisheyeMask8 = cv::imread("mask.png", cv::IMREAD_GRAYSCALE);
-	cv::Mat fisheyeMask;
+	// Load fisheye mask and vector fields
+	cv::Mat translationVector, calibrationVector, fisheyeMask8, fisheyeMask;
+	if (stereoScaling == 1.0f) {
+		translationVector = cv::readOpticalFlow("translationVector.flo");
+		calibrationVector = cv::readOpticalFlow("calibrationVector.flo");
+		fisheyeMask8 = cv::imread("mask.png", cv::IMREAD_GRAYSCALE);
+	}
+	else {
+		translationVector = cv::readOpticalFlow("translationVectorHalf.flo");
+		calibrationVector = cv::readOpticalFlow("calibrationVectorHalf.flo");
+		fisheyeMask8 = cv::imread("maskHalf.png", cv::IMREAD_GRAYSCALE);
+	}
 	fisheyeMask8.convertTo(fisheyeMask, CV_32F, 1.0 / 255.0);
 	stereotgv->copyMaskToDevice(fisheyeMask);
-
-	// Load vector fields
-	cv::Mat translationVector, calibrationVector;
-	translationVector = cv::readOpticalFlow("translationVector.flo");
-	calibrationVector = cv::readOpticalFlow("calibrationVector.flo");
 	stereotgv->loadVectorFields(translationVector, calibrationVector);
 
 	// Solve stereo depth
 	cv::Mat equi1, equi2;
 	cv::equalizeHist(im1, equi1);
 	cv::equalizeHist(im2, equi2);
+	cv::resize(equi1, equi1, cv::Size(stereoWidth, stereoHeight));
+	cv::resize(equi2, equi2, cv::Size(stereoWidth, stereoHeight));
+	cv::imshow("input", equi1);
 
 	clock_t start = clock();
 	stereotgv->copyImagesToDevice(equi1, equi2);
@@ -96,6 +105,12 @@ int main() {
 	clock_t timeElapsed = (clock() - start);
 	std::cout << "time: " << timeElapsed << " ms ";
 	cv::writeOpticalFlow("disparity.flo", disparity);
+
+	cv::Mat uvrgb = cv::Mat(stereoHeight, stereoWidth, CV_32FC3);
+	stereotgv->copyDisparityVisToHost(uvrgb, 40.0f);
+	cv::Mat uvrgb8;
+	uvrgb.convertTo(uvrgb8, CV_8UC3, 255.0);
+	cv::imshow("2D disparity", uvrgb8);
 	cv::waitKey();
 	return 0;
 }
