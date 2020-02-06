@@ -1,9 +1,9 @@
 # Variational Fisheye Stereo
 
-Implementation of our ICRA2020(Accepted)/RAL paper.
+Implementation of our ICRA2020(Accepted)/RAL paper for the Realsene T265 fisheye stereo camera.
 
 Menandro Roxas and Takeshi Oishi. Variational Fisheye Stereo. IEEE Robotics and Automation Letters vol. 5-2, pp. 1303-1310, January 17, 2020.
-[ieeexplore](https://ieeexplore.ieee.org/document/8962005)
+[IEEExplore](https://ieeexplore.ieee.org/document/8962005)
 
 ## Update
 02/06/2020: Added 2D disparity to 3D and depth (radial) conversion. copyStereoToHost now requires the intrinsic camera parameters and distortion model coefficients (Kanala-Brandt model). 
@@ -38,6 +38,8 @@ Libraries: D:/dev/lib64
 ## Dataset
 Real Dataset (144 image pairs with groundtruth depth): 
 [Dataset](http://b2.cvl.iis.u-tokyo.ac.jp/~roxas/icra_dataset.zip)
+
+The model used in this dataset (equidistant model) is different from the implemented code above and therefore will have a different trajectory and calibration field, which are provided for each image pairs. (TODO: sample code for using the dataset).
 
 Folder Structure:
 * calib - intrinsic camera matrix K, and transformation R, t between first->second image frames in OpenCV format .xml 
