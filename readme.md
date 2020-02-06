@@ -62,9 +62,9 @@ INTEL Realsense T265:
 [Video 20](http://b2.cvl.iis.u-tokyo.ac.jp/~roxas/output020.mp4)
 [Video 21](http://b2.cvl.iis.u-tokyo.ac.jp/~roxas/outputbuggy.mp4)
 
-Point cloud from sample image pair:
+Point cloud from sample image pair: [PLY file](http://b2.cvl.iis.u-tokyo.ac.jp/~roxas/test.ply)
 ![3D](http://b2.cvl.iis.u-tokyo.ac.jp/~roxas/snapshot05.png)
-[PLY file](http://b2.cvl.iis.u-tokyo.ac.jp/~roxas/test.ply)
+
 
 
 
