@@ -1,8 +1,12 @@
 # Variational Fisheye Stereo
 
-Implementation of our paper submission for ICRA2020.
+Implementation of our ICRA2020(Accepted)/RAL paper.
 
-Menandro Roxas and Takeshi Oishi, "Real-Time Variational Fisheye Stereo without Rectification and Undistortion," arXiv preprint 
+Menandro Roxas and Takeshi Oishi. Variational Fisheye Stereo. IEEE Robotics and Automation Letters vol. 5-2, pp. 1303-1310, January 17, 2020.
+[ieeexplore](https://ieeexplore.ieee.org/document/8962005)
+
+## Update
+02/06/2020: Added 2D disparity to 3D and depth (radial) conversion. copyStereoToHost now requires the intrinsic camera parameters and distortion model coefficients (Kanala-Brandt model). 
 
 ## Requirements
 
