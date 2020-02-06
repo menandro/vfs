@@ -154,6 +154,7 @@ int StereoTgv::initialize(int width, int height, float beta, float gamma,
 
 	// 3D
 	checkCudaErrors(cudaMalloc(&d_X, dataSize32fc3));
+	X = cv::Mat(height, stride, CV_32FC3);
 
 	// Debugging
 	checkCudaErrors(cudaMalloc(&debug_depth, dataSize32f));
@@ -513,33 +514,19 @@ int StereoTgv::solveStereoForwardMasked() {
 	return 0;
 }
 
-int StereoTgv::copyStereo8ToHost(cv::Mat& wCropped, float maxDepth) {
-	ConvertDisparityToDepth(d_u, baseline, focal, width, height, stride, d_depth);
+int StereoTgv::copyStereoToHost(cv::Mat& croppedDepth, cv::Mat& croppedX, float focalx, float focaly,
+	float cx, float cy, float d1, float d2, float d3, float d4,
+	float t1, float t2, float t3) {
+	// Convert Disparity to Depth/3D
+	ConvertKB(d_warpUV, focalx, focaly, cx, cy, d1, d2, d3, d4, t1, t2, t3, d_X, d_depth, width, height, stride);
 
 	// Remove Padding
 	checkCudaErrors(cudaMemcpy((float*)depth.ptr(), d_depth, dataSize32f, cudaMemcpyDeviceToHost));
 	cv::Rect roi(0, 0, width, height); // define roi here as x0, y0, width, height
-	cv::Mat depth8;
-	depth.convertTo(depth8, CV_8UC1, 255.0f / maxDepth);
-	wCropped = depth8(roi);
-	return 0;
-}
+	croppedDepth = depth(roi);
 
-int StereoTgv::copyStereoToHost(cv::Mat &wCropped) {
-	// Convert Disparity to Depth
-	/*if (isOcclusionChecked) {
-		ConvertDisparityToDepth(d_wFinal, baseline, focal, width, height, stride, d_depth);
-	}
-	else {
-		
-	}*/
-	ConvertDisparityToDepth(d_u, baseline, focal, width, height, stride, d_depth);
-
-	// Remove Padding
-	//checkCudaErrors(cudaMemcpy((float *)depth.ptr(), d_w, stride * height * sizeof(float), cudaMemcpyDeviceToHost));
-	checkCudaErrors(cudaMemcpy((float *)depth.ptr(), d_depth, dataSize32f, cudaMemcpyDeviceToHost));
-	cv::Rect roi(0, 0, width, height); // define roi here as x0, y0, width, height
-	wCropped = depth(roi);
+	checkCudaErrors(cudaMemcpy((float3*)X.ptr(), d_X, dataSize32fc3, cudaMemcpyDeviceToHost));
+	croppedX = X(roi);
 	return 0;
 }
 

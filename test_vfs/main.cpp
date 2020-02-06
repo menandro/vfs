@@ -48,6 +48,22 @@ int main() {
 	cv::Mat im1 = cv::imread("robot1.png", cv::IMREAD_GRAYSCALE);
 	cv::Mat im2 = cv::imread("robot2.png", cv::IMREAD_GRAYSCALE);
 
+	// Camera parameters
+	float focalx = 285.722f;
+	float focaly = 286.759f;
+	float cx = 420.135f;
+	float cy = 403.394f;
+	// Kanala-Brandt distortion paramters (from t265)
+	float d0 = -0.00659769f;
+	float d1 = 0.0473251f;
+	float d2 = -0.0458264f;
+	float d3 = 0.00897725f;
+	// Camera translation
+	float tx = -0.0641854f;
+	float ty = -0.000218299f;
+	float tz = 0.000111253f;
+
+	// VFS parameters
 	StereoTgv* stereotgv = new StereoTgv();
 	int width = 848;
 	int height = 800;
@@ -57,17 +73,15 @@ int main() {
 	int nWarpIters = 100;	// Change to reduce processing time
 	int nSolverIters = 100;	// Change to reduce processing time
 	float lambda = 5.0f;	// Change to increase data dependency
-	float beta = 9.0f;		
+	float beta = 9.0f;
 	float gamma = 0.85f;
 	float alpha0 = 17.0f;
 	float alpha1 = 1.2f;
 	float timeStepLambda = 1.0f;
-	stereotgv->limitRange = 0.2f;
+	stereotgv->limitRange = 0.1f;
 
 	int stereoWidth = (int)((float)width / stereoScaling);
 	int stereoHeight = (int)((float)height / stereoScaling);
-	//stereotgv->baseline = 0.0642f; // Not used
-	//stereotgv->focal = 285.8557f / stereoScaling;
 	stereotgv->initialize(stereoWidth, stereoHeight, beta, gamma, alpha0, alpha1,
 		timeStepLambda, lambda, nLevel, fScale, nWarpIters, nSolverIters);
 	stereotgv->visualizeResults = true;
@@ -100,9 +114,17 @@ int main() {
 	stereotgv->copyImagesToDevice(equi1, equi2);
 	stereotgv->solveStereoForwardMasked();
 
+	cv::Mat depth = cv::Mat(stereoHeight, stereoWidth, CV_32F);
+	cv::Mat X = cv::Mat(stereoHeight, stereoWidth, CV_32FC3);
+	stereotgv->copyStereoToHost(depth, X, focalx / stereoScaling, focaly / stereoScaling,
+		cx / stereoScaling, cy / stereoScaling,
+		d0, d1, d2, d3,
+		tx, ty, tz);
+	clock_t timeElapsed = (clock() - start);
+	cv::imshow("X", X);
+
 	cv::Mat disparity = cv::Mat(stereoHeight, stereoWidth, CV_32FC2);
 	stereotgv->copyDisparityToHost(disparity);
-	clock_t timeElapsed = (clock() - start);
 	std::cout << "time: " << timeElapsed << " ms ";
 	cv::writeOpticalFlow("disparity.flo", disparity);
 

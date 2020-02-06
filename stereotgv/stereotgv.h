@@ -96,13 +96,13 @@ public:
 	std::vector<float2*> pTvBackward;
 
 	// 3D
-	float3 *d_X;
+	float3* d_X;
+	cv::Mat X;
 
 	// Debug
 	float *debug_depth;
 
 	cv::Mat im0pad, im1pad;
-
 
 	int initialize(int width, int height, float beta, float gamma,
 		float alpha0, float alpha1, float timestep_lambda, float lambda,
@@ -115,10 +115,11 @@ public:
 	int copyMaskToDevice(cv::Mat mask);
 	int solveStereoForward();
 	int solveStereoForwardMasked();
-	int copyStereoToHost(cv::Mat &wCropped);
-	int copyStereo8ToHost(cv::Mat& wCropped, float maxDepth);
+	int copyStereoToHost(cv::Mat& croppedDepth, cv::Mat& croppedX, float focalx, float focaly,
+		float cx, float cy, float d1, float d2, float d3, float d4,
+		float t1, float t2, float t3);
 	int copy1DDisparityToHost(cv::Mat &wCropped);
-	int copyDisparityToHost(cv::Mat &wCropped);
+	int copyDisparityToHost(cv::Mat &wCropped); //2D Optical Flow
 	int copyDisparityVisToHost(cv::Mat &wCropped, float flowScale);
 	int copyWarpedImageToHost(cv::Mat &wCropped);
 
@@ -178,9 +179,9 @@ public:
 		int newWidth, int newHeight, int newStride, float scale, float *out);
 	void Upscale(const float2 *src, int width, int height, int stride,
 		int newWidth, int newHeight, int newStride, float scale, float2 *out);
-	void ConvertDisparityToDepth(float *disparity, float baseline, float focal, int w, int h, int s, float *depth);
-	void ConvertDisparityToDepthKannala(float* disparity, float baseline, float focal,
-		int w, int h, int s, float* depth);
+	void ConvertKB(float2* disparity, float focalx, float focaly, float cx, float cy,
+		float d1, float d2, float d3, float d4, float t1, float t2, float t3,
+		float3* X, float* depth, int w, int h, int s);
 
 	void UpdateDualVariablesTGV(float* u_, float2 *v_, float alpha0, float alpha1, float sigma,
 		float eta_p, float eta_q, float* a, float* b, float* c,
@@ -205,8 +206,6 @@ public:
 		int w, int h, int s, float* a, float* b, float* c);
 	void ComputeDerivativesFisheyeMasked(float *I0, float *I1, float2 *vector, float* mask,
 		int w, int h, int s, float *Iw, float *Iz);
-	void ConvertDisparityToDepthMasked(float *disparity, float* mask, float baseline, float focal,
-		int w, int h, int s, float *depth);
 	void DownscaleNearestNeighbor(const float *src, int width, int height, int stride,
 		int newWidth, int newHeight, int newStride, float *out);
 	void DownscaleMasked(const float *src, float *mask, int width, int height, int stride,
