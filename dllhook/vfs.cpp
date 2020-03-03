@@ -40,5 +40,9 @@ extern "C" __declspec(dllexport) void SolveStereo(StereoTgv * vfs, unsigned char
 	vfs->solveStereoForwardMasked();
 
 	cv::Mat depth8(cv::Size(stereoWidth, stereoHeight), CV_8UC1, output);
-	vfs->copyStereo8ToHost(depth8, maxDepth);
+	//vfs->copyStereo8ToHost(depth8, maxDepth);
+	/*vfs->copyStereoToHost(depth8, depth, X, focalx / stereoScaling, focaly / stereoScaling,
+		cx / stereoScaling, cy / stereoScaling,
+		d0, d1, d2, d3,
+		tx, ty, tz);*/
 }

@@ -15,7 +15,7 @@
 #define LIB_EXT ".lib"
 #endif
 
-#define CUDA_LIB_PATH "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v10.1/lib/x64/"
+#define CUDA_LIB_PATH "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v10.2/lib/x64/"
 #pragma comment(lib, CUDA_LIB_PATH "cudart.lib")
 
 
