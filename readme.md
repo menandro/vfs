@@ -10,8 +10,8 @@ Menandro Roxas and Takeshi Oishi. Variational Fisheye Stereo. IEEE Robotics and 
 
 ## Requirements
 
-1. OpenCV, OpenCV Contrib (optflow) (tested with v4.10.0)
-2. CUDA 10.1 (Including Samples for headers)
+1. OpenCV, OpenCV Contrib (optflow) (tested with v4.2.0)
+2. CUDA 10.2 (Including Samples for headers)
 3. Visual Studio 2019
 
 ## Building Instructions
