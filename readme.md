@@ -6,7 +6,7 @@ Menandro Roxas and Takeshi Oishi. Variational Fisheye Stereo. IEEE Robotics and 
 [IEEExplore](https://ieeexplore.ieee.org/document/8962005)
 
 ## Update
-03/18/2020: Added link for generating the vector fields ([MATLAB](<script src="https://gist.github.com/menandro/b829667f616e72aded373479aca61770.js"></script>))
+03/18/2020: Added link for generating the vector fields [MATLAB](https://gist.github.com/menandro/b829667f616e72aded373479aca61770)
 02/06/2020: Added 2D disparity to 3D and depth (radial) conversion. copyStereoToHost now requires the intrinsic camera parameters and distortion model coefficients (Kanala-Brandt model). 
 
 ## Requirements
@@ -14,7 +14,7 @@ Menandro Roxas and Takeshi Oishi. Variational Fisheye Stereo. IEEE Robotics and 
 1. OpenCV, OpenCV Contrib (optflow) (tested with v4.2.0)
 2. CUDA 10.2 (Including Samples for headers)
 3. Visual Studio 2019
-4. Trajectory and Calibration Fields (in .flo format) of the T265 sensor (included). However if you want to use your own T265, use this MATLAB script to generate them: [MATLAB](<script src="https://gist.github.com/menandro/b829667f616e72aded373479aca61770.js"></script>)
+4. Trajectory and Calibration Fields (in .flo format) of the T265 sensor (included). However if you want to use your own T265, use this MATLAB script to generate them: [MATLAB](https://gist.github.com/menandro/b829667f616e72aded373479aca61770)
 
 ## Building Instructions
 The solution consists of two projects - stereotgv and test_vfs. stereotgv generates a static library from which test_vfs links. test_vfs generates a Win32 .exe file. 
