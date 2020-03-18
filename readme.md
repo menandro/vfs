@@ -3,14 +3,14 @@
 Implementation of our ICRA2020(Accepted)/RAL paper for the Realsene T265 fisheye stereo camera.
 
 Menandro Roxas and Takeshi Oishi. Variational Fisheye Stereo. IEEE Robotics and Automation Letters vol. 5-2, pp. 1303-1310, January 17, 2020.
-[IEEExplore](https://ieeexplore.ieee.org/document/8962005)
+[IEEExplore](https://ieeexplore.ieee.org/document/8962005).
 
 ## Update
 03/18/2020: Link to convert disparity to depth for the dataset below (equidistant model). [Converter-MATLAB](https://gist.github.com/menandro/ce9eb2e09d4c2d5807979a34ab709cdf). Needs [.flo reader](https://gist.github.com/menandro/221acd7eaeedab867691f70194b3cc3d).
 
 03/18/2020: Added sample function in main.cpp to use the dataset below (equidistant model). I didn't check if the output folder exist, so create a folder "output" in the main folder of the dataset.
 
-03/18/2020: Added link for generating the vector fields [MATLAB](https://gist.github.com/menandro/b829667f616e72aded373479aca61770)
+03/18/2020: Added link for MATLAB scipts generating the vector fields [KB model](https://gist.github.com/menandro/b829667f616e72aded373479aca61770), [Equidistant model](https://gist.github.com/menandro/cd5f4b5309f16f1a0f1987fcb2baf057). Needs [.flo writer](https://gist.github.com/menandro/8beed09677ca09ace12233d99f5da321).
 
 02/06/2020: Added 2D disparity to 3D and depth (radial) conversion. copyStereoToHost now requires the intrinsic camera parameters and distortion model coefficients (Kanala-Brandt model). 
 
@@ -19,7 +19,7 @@ Menandro Roxas and Takeshi Oishi. Variational Fisheye Stereo. IEEE Robotics and 
 1. OpenCV, OpenCV Contrib (optflow) (tested with v4.2.0)
 2. CUDA 10.2 (Including Samples for headers)
 3. Visual Studio 2019
-4. Trajectory and Calibration Fields (in .flo format) of the T265 sensor (included). However if you want to use your own T265, use this MATLAB script to generate them: [MATLAB](https://gist.github.com/menandro/b829667f616e72aded373479aca61770)
+4. Trajectory and Calibration Fields (in .flo format) of the T265 sensor (included). However if you want to use your own T265, use this MATLAB script to generate them: [MATLAB](https://gist.github.com/menandro/b829667f616e72aded373479aca61770). Needs [.flo writer](https://gist.github.com/menandro/8beed09677ca09ace12233d99f5da321).
 
 ## Building Instructions
 The solution consists of two projects - stereotgv and test_vfs. stereotgv generates a static library from which test_vfs links. test_vfs generates a Win32 .exe file. 
