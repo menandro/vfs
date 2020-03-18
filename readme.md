@@ -6,6 +6,8 @@ Menandro Roxas and Takeshi Oishi. Variational Fisheye Stereo. IEEE Robotics and 
 [IEEExplore](https://ieeexplore.ieee.org/document/8962005)
 
 ## Update
+03/18/2020: Link to convert disparity to depth for the dataset below (equidistant model). [Converter-MATLAB](https://gist.github.com/menandro/ce9eb2e09d4c2d5807979a34ab709cdf). Needs [.flo reader](https://gist.github.com/menandro/221acd7eaeedab867691f70194b3cc3d).
+
 03/18/2020: Added sample function in main.cpp to use the dataset below (equidistant model). I didn't check if the output folder exist, so create a folder "output" in the main folder of the dataset.
 
 03/18/2020: Added link for generating the vector fields [MATLAB](https://gist.github.com/menandro/b829667f616e72aded373479aca61770)
