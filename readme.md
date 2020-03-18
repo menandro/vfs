@@ -6,6 +6,8 @@ Menandro Roxas and Takeshi Oishi. Variational Fisheye Stereo. IEEE Robotics and 
 [IEEExplore](https://ieeexplore.ieee.org/document/8962005)
 
 ## Update
+03/18/2020: Added sample function in main.cpp to use the dataset below (equidistant model). I didn't check if the output folder exist, so create a folder "output" in the main folder of the dataset.
+
 03/18/2020: Added link for generating the vector fields [MATLAB](https://gist.github.com/menandro/b829667f616e72aded373479aca61770)
 
 02/06/2020: Added 2D disparity to 3D and depth (radial) conversion. copyStereoToHost now requires the intrinsic camera parameters and distortion model coefficients (Kanala-Brandt model). 

@@ -34,7 +34,74 @@ void showDepthJet(std::string windowName, cv::Mat image, float maxDepth, bool sh
 	if (shouldWait) cv::waitKey();
 }
 
-int main() {
+// For using the dataset on the github page
+int test_equidistant_data() {
+	std::string folder = "C:/Users/menandro/Desktop/Conferences/ICRA2020/icra_dataset/";
+	std::string filename = "im203";
+	std::string outputFilename = folder + "output/" + filename + ".flo";
+	cv::Mat im1 = cv::imread(folder + "image_02/data/" + filename + ".png");
+	cv::Mat im2 = cv::imread(folder + "image_03/data/" + filename + ".png");
+
+	// VFS Parameters
+	StereoTgv* stereotgv = new StereoTgv();
+	int width = 800;
+	int height = 800;
+	float stereoScaling = 1.0f;
+	int nLevel = 11;
+	float fScale = 1.2f;
+	int nWarpIters = 50;
+	int nSolverIters = 50;
+	float lambda = 5.0f;
+	stereotgv->limitRange = 0.1f;
+	float beta = 9.0f;//4.0f;
+	float gamma = 0.85f;// 0.2f;
+	float alpha0 = 17.0f;// 5.0f;
+	float alpha1 = 1.2f;// 1.0f;
+	float timeStepLambda = 1.0f;
+
+	stereotgv->initialize(width, height, beta, gamma, alpha0, alpha1,
+		timeStepLambda, lambda, nLevel, fScale, nWarpIters, nSolverIters);
+	stereotgv->visualizeResults = true;
+
+	cv::Mat mask = cv::Mat::zeros(cv::Size(width, height), CV_8UC1);
+	circle(mask, cv::Point(width / 2, height / 2), width / 2 - 10, cv::Scalar(256.0f), -1);
+	cv::Mat fisheyeMask;
+	mask.convertTo(fisheyeMask, CV_32F, 1.0 / 255.0);
+	stereotgv->copyMaskToDevice(fisheyeMask);
+	
+	cv::Mat equi1, equi2;
+	cv::cvtColor(im1, im1, cv::COLOR_BGR2GRAY);
+	cv::cvtColor(im2, im2, cv::COLOR_BGR2GRAY);
+	cv::equalizeHist(im1, equi1);
+	cv::equalizeHist(im2, equi2);
+	int stereoWidth = width;
+	int stereoHeight = height;
+	cv::Mat translationVector = cv::readOpticalFlow(folder + "translationVector/" + filename + ".flo");
+	cv::Mat calibrationVector = cv::readOpticalFlow(folder + "calibrationVector/" + filename + ".flo");
+
+	stereotgv->loadVectorFields(translationVector, calibrationVector);
+
+	clock_t start = clock();
+
+	stereotgv->copyImagesToDevice(equi1, equi2);
+	stereotgv->solveStereoForwardMasked();
+
+	cv::Mat disparityVis = cv::Mat(stereoHeight, stereoWidth, CV_32FC3);
+	stereotgv->copyDisparityVisToHost(disparityVis, 50.0f);
+	cv::imshow("flow", disparityVis);
+
+	clock_t timeElapsed = (clock() - start);
+	std::cout << "ours time: " << timeElapsed << " ms" << std::endl;
+
+	cv::Mat disparity = cv::Mat(stereoHeight, stereoWidth, CV_32FC2);
+	stereotgv->copyDisparityToHost(disparity);
+	cv::writeOpticalFlow(outputFilename, disparity);
+
+	cv::waitKey();
+}
+
+// For using Realsense T265
+int test_t265_data() {
 	cv::Mat im1 = cv::imread("robot1.png", cv::IMREAD_GRAYSCALE);
 	cv::Mat im2 = cv::imread("robot2.png", cv::IMREAD_GRAYSCALE);
 
@@ -125,4 +192,10 @@ int main() {
 	cv::imshow("2D disparity", uvrgb8);
 	cv::waitKey();
 	return 0;
+}
+
+int main() {
+	// Choose which to run
+	return test_equidistant_data();
+	//return test_t265_data();
 }
