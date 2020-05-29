@@ -3,7 +3,7 @@
 Implementation of our ICRA2020(Accepted)/RAL paper for the Realsene T265 fisheye stereo camera.
 
 Menandro Roxas and Takeshi Oishi. Variational Fisheye Stereo. IEEE Robotics and Automation Letters vol. 5-2, pp. 1303-1310, January 17, 2020.
-[IEEExplore](https://ieeexplore.ieee.org/document/8962005).
+[IEEExplore](https://ieeexplore.ieee.org/document/8962005) [Youtube](https://www.youtube.com/watch?v=fbv_LJxHEKQ)
 
 ## Update
 03/18/2020: Link to convert disparity to depth for the dataset below (equidistant model). [Converter-MATLAB](https://gist.github.com/menandro/ce9eb2e09d4c2d5807979a34ab709cdf). Needs [.flo reader](https://gist.github.com/menandro/221acd7eaeedab867691f70194b3cc3d).
