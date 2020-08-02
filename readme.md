@@ -82,6 +82,6 @@ Point cloud from sample image pair: [PLY file](http://b2.cvl.iis.u-tokyo.ac.jp/~
 This project is licensed under the MIT license
 
 ## Author
-Menandro Roxas, 3D Vision Laboratory (Oishi Laboratory), Institute of Industrial Science, The University of Tokyo
+Menandro Roxas, Machine Learning Researcher, Line Corporation
 
 
