@@ -8,8 +8,9 @@
 #include <cuda_runtime.h>
 #include <helper_cuda.h>
 #include <device_launch_parameters.h>
+#include <opencv2/opencv.hpp>
 
-#include "lib_link.h"
+//#include "lib_link.h"
 
 class StereoTgv {
 public:
