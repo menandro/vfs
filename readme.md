@@ -6,6 +6,8 @@ Menandro Roxas and Takeshi Oishi. Variational Fisheye Stereo. IEEE Robotics and 
 [IEEExplore](https://ieeexplore.ieee.org/document/8962005) [Youtube](https://www.youtube.com/watch?v=fbv_LJxHEKQ)
 
 ## Update
+02/19/2021: Updated project solution to CUDA11.2 and OpenCV4.5.1
+
 03/18/2020: Link to convert disparity to depth for the dataset below (equidistant model). [Converter-MATLAB](https://gist.github.com/menandro/ce9eb2e09d4c2d5807979a34ab709cdf). Needs [.flo reader](https://gist.github.com/menandro/221acd7eaeedab867691f70194b3cc3d).
 
 03/18/2020: Added sample function in main.cpp to use the dataset below (equidistant model). I didn't check if the output folder exist, so create a folder "output" in the main folder of the dataset.
@@ -16,8 +18,8 @@ Menandro Roxas and Takeshi Oishi. Variational Fisheye Stereo. IEEE Robotics and 
 
 ## Requirements
 
-1. OpenCV, OpenCV Contrib (optflow) (tested with v4.2.0)
-2. CUDA 10.2 (Including Samples for headers)
+1. OpenCV, OpenCV Contrib (optflow) (tested with v4.5.1)
+2. CUDA 11.2 (Including Samples for headers)
 3. Visual Studio 2019
 4. Trajectory and Calibration Fields (in .flo format) of the T265 sensor (included). However if you want to use your own T265, use this MATLAB script to generate them: [MATLAB](https://gist.github.com/menandro/b829667f616e72aded373479aca61770). Needs [.flo writer](https://gist.github.com/menandro/8beed09677ca09ace12233d99f5da321).
 
