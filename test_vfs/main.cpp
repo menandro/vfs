@@ -222,6 +222,10 @@ int test_t265_data() {
 	cv::Mat uvrgb8;
 	uvrgb.convertTo(uvrgb8, CV_8UC3, 255.0);
 	cv::imshow("2D disparity", uvrgb8);
+
+	cv::imwrite("request_uvrgb8.png", uvrgb8);
+	cv::imwrite("request_X.png", X*20.0);
+	cv::imwrite("request_depth.png", depth*20.0);
 	cv::waitKey();
 	return 0;
 }
