@@ -235,7 +235,7 @@ void TgvUpdatePrimalVariablesMaskedKernel(float* mask, float* u_, float2* v_, fl
 		vpos.y = v_pos.y + (tau / eta_v2s) * (alpha1 * dq_tensor.y + alpha0 * div_q.y);
 	}
 	else {
-		vpos.x = v_pos.x + (tau) * (alpha1 * dq_tensor.x + alpha0 * div_q.x);
+		vpos.y = v_pos.y + (tau) * (alpha1 * dq_tensor.y + alpha0 * div_q.y);
 	}
 	v[pos] = vpos;
 
