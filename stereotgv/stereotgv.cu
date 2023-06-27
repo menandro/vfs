@@ -181,8 +181,8 @@ int StereoTgv::loadVectorFields(cv::Mat translationVector, cv::Mat calibrationVe
 
 	checkCudaErrors(cudaMemcpy(d_tvForward, (float2 *)translationVectorPad.ptr(), dataSize32fc2, cudaMemcpyHostToDevice));
 
-	Swap(pTvForward[0], d_tvForward);
 	ScalarMultiply(d_tvForward, -1.0f, width, height, stride, d_tvBackward);
+	Swap(pTvForward[0], d_tvForward);
 	Swap(pTvBackward[0], d_tvBackward);
 	for (int level = 1; level < nLevels; level++) {
 		//std::cout << "vectorfields " << pW[level] << " " << pH[level] << " " << pS[level] << std::endl;
