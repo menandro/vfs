@@ -16,16 +16,16 @@ __global__ void TgvConvertKBKernel(float2* disparity,
 
 	float u0 = (float)ix;
 	float v0 = (float)iy;
-	float xprime0 = (u0 - focalx) / cx;
-	float yprime0 = (v0 - focaly) / cy;
+	float xprime0 = (u0 - cx) / focalx;
+	float yprime0 = (v0 - cy) / focaly;
 
 	float u = disparity[pos].x;
 	float v = disparity[pos].y;
 
 	float u1 = u0 + u;
 	float v1 = v0 + v;
-	float xprime1 = (u1 - focalx) / cx;
-	float yprime1 = (v1 - focaly) / cy;
+	float xprime1 = (u1 - cx) / focalx;
+	float yprime1 = (v1 - cy) / focaly;
 
 	// Newton-Raphson Method Frame 0
 	float ru0 = sqrtf(xprime0 * xprime0 + yprime0 * yprime0);

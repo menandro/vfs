@@ -121,7 +121,7 @@ __global__ void TgvMedianFilterKernel3(float* u, float* v,
 	}
 
 	float tmpu, tmpv;
-	for (int j = 0; j < 9; j++) {
+	for (int j = 0; j < 5; j++) {
 		for (int i = j + 1; i < 9; i++) {
 			if (mu[j] > mu[i]) {
 				//Swap the variables.
@@ -357,7 +357,7 @@ __global__ void TgvMedianFilterDisparityKernel3(float* u,
 	}
 
 	float tmpu, tmpv;
-	for (int j = 0; j < 9; j++) {
+	for (int j = 0; j < 5; j++) {
 		for (int i = j + 1; i < 9; i++) {
 			if (mu[j] > mu[i]) {
 				//Swap the variables.
@@ -490,7 +490,7 @@ __global__ void TgvMedianFilterDisparityMaskedKernel3(float* u, float* mask,
 	}
 
 	float tmpu, tmpv;
-	for (int j = 0; j < 9; j++) {
+	for (int j = 0; j < 5; j++) {
 		for (int i = j + 1; i < 9; i++) {
 			if (mu[j] > mu[i]) {
 				//Swap the variables.

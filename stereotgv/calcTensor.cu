@@ -224,7 +224,7 @@ void StereoTgv::CalcTensorMasked(float* gray, float* mask, float beta, float gam
 	float* a, float* b, float* c)
 {
 	dim3 threads(BlockWidth, BlockHeight);
-	dim3 blocks(iDivUp(h, threads.x), iDivUp(h, threads.y));
+	dim3 blocks(iDivUp(w, threads.x), iDivUp(h, threads.y));
 
 	// mirror if a coordinate value is out-of-range
 	gray_img.addressMode[0] = cudaAddressModeMirror;
